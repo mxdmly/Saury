@@ -25,10 +25,6 @@ dbo.ZZ.ZZDLX,
 dbo.ZZ.ZJBMC,
 dbo.ZZ.ZICDM,
 dbo.ZZ.ZRYBQBH,
-dbo.ZZ.ZRYBQ,
-dbo.ZZ.ZZDLXMC,
-dbo.ZZ.JYLSH,
-dbo.ZZ.RESULT,
-dbo.ZZ.UPTIME)
+dbo.ZZ.ZRYBQ)
 
 VALUES (

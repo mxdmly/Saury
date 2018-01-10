@@ -10,16 +10,16 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    Caviar *ca = new Caviar();
-    Salt *sa = new Salt();
+    Caviar *caviar = new Caviar();
+    Salt *salt = new Salt();
 
-    ca->start();
-    //sa->start();
+    caviar->start();
+    //salt->start();
 
     int i;
     cin >> i;
-    ca->ifRun_b = i;
-    sa->ifRun_b = i;
+    caviar->ifRun_b = i;
+    salt->ifRun_b = i;
 
     return a.exec();
 }
