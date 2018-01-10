@@ -9,7 +9,10 @@
 QDateTime upTime = QDateTime(QDate(2018, 1, 9), QTime(16, 36, 0, 0));
 QDateTime thisTime;
 QString cxBAS_str;
-QString xrBAS_str;
+QString crBAStheS_str;
+QString crBAS_str;
+
+QString descTOP_str;
 
 Caviar::Caviar()
 {
@@ -24,25 +27,65 @@ Caviar::~Caviar()
 
 void Caviar::run()
 {
+    iniDB();
+    cxBAS_qsq = QSqlQuery(dbBAS_qdb);
+    crEtone_qsq = QSqlQuery(dbEtone_qdb);
+
     while (ifRun_b) {
         qDebug() << "caviar";
+/*
+        crEtone_qsq.exec("SELECT TOP 1 TT.FID_TPATIENTVISIT FROM db_upload.dbo.TT ORDER BY TT.ID DESC");
+        if(crEtone_qsq.next())descTOP_str = crEtone_qsq.value(0).toString();
 
-        iniDB();
         cxBAS_str = openSqlFile("C:\\Saury\\qTPATIENTVISIT.sql");
-        xrBAS_str = openSqlFile("C:\\Saury\\qIntoTABLEUPLOAD.sql");
-        cxBAS_str.append("2769191").append("\'");
+        crBAStheS_str = openSqlFile("C:\\Saury\\qIntoTABLEUPLOAD_S.sql");
+        //cxBAS_str.append("= ").append("2784075").append(" ORDER BY dbo.TPATIENTVISIT.FID ASC");
+        cxBAS_str.append("> ").append(descTOP_str).append(" ORDER BY dbo.TPATIENTVISIT.FID ASC");
 
-        cxBAS_qsq = QSqlQuery(dbBAS_qdb);
-        xrBAS_qsq = QSqlQuery(dbEtone_qdb);
-
-        cxBAS_qsq.exec(cxBAS_str);
-
+        cxBAS_qsq.exec(cxBAS_str);//to TABLEUPLOAD
+        qDebug() << cxBAS_qsq.numRowsAffected();
+        int ii = 1;
         while (cxBAS_qsq.next()) {
-            for (int i = 0; i < 150; ++i) {
-                xrBAS_str.append(cxBAS_qsq.value(i).toString());
+            crBAS_str = "DECLARE @bah VARCHAR(20) DECLARE @cyt VARCHAR(20) SET @bah = ";
+            crBAS_str.append("\'");
+            crBAS_str.append(cxBAS_qsq.value(2).toString()).append("\'");
+            crBAS_str.append(" SET @cyt = ").append("\'");
+            crBAS_str.append(cxBAS_qsq.value(33).toString()).append("\'").append(" ");
+            crBAS_str.append(crBAStheS_str);
+            crBAS_str.append("\'").append(cxBAS_qsq.value(0).toString()).append("\'");
+            crBAS_str.append(",@id, @zy, LEFT(@qh, 6),").append("\'").append("01").append("\'");
+            crBAS_str.append(",\'").append(cxBAS_qsq.value(1).toString()).append("\'");
+            crBAS_str.append(",\'").append(cxBAS_qsq.value(2).toString()).append("\'");
+            crBAS_str.append(",\'").append(cxBAS_qsq.value(3).toString()).append("\'");
+            crBAS_str.append(",\'").append(cxBAS_qsq.value(4).toString()).append("\'");
+            crBAS_str.append(",\'").append(cxBAS_qsq.value(5).toString()).append("\'");
+            crBAS_str.append(",REPLACE(\'").append(cxBAS_qsq.value(6).toString()).append("\', \'Y\', \'\')");
+            for (int i = 7; i < 146; ++i) {
+                crBAS_str.append(",").append("\'").append(cxBAS_qsq.value(i).toString()).append("\'");
             }
-            xrBAS_qsq.exec(xrBAS_str);
+            crBAS_str.append(")");
+            crEtone_qsq.exec(crBAS_str);
+            qDebug() << ii;ii++;
         }
+/*
+        QFile f("C:\\Saury\\out.log");
+        f.open(QIODevice::WriteOnly | QIODevice::Append);
+        QTextStream textStream(&f);
+        textStream << crBAS_str << endl;*/
+
+        crEtone_qsq.exec("SELECT TOP 1 ZZ.ZID FROM db_upload.dbo.ZZ ORDER BY ZZ.ID DESC");
+        if(crEtone_qsq.next())descTOP_str = crEtone_qsq.value(0).toString();
+        cxBAS_str = openSqlFile("C:\\Saury\\qZ.sql");
+        cxBAS_str.append("> ").append(descTOP_str).append(" ORDER BY TDIAGNOSE.FID ASC");
+        cxBAS_qsq.exec(cxBAS_str);//to Z
+        int ii = 1;
+        while (cxBAS_qsq.next()) {
+            crBAS_str = "";
+            crEtone_qsq.exec(crBAS_str);
+
+            qDebug() << ii;ii++;
+        }
+
 
         thisTime = QDateTime::currentDateTime();//get this time
 
@@ -50,6 +93,12 @@ void Caviar::run()
         {
             qDebug() << "+1 Day";
             upTime = upTime.addDays(1);
+
+
+            cxBAS_qsq.clear();
+            crEtone_qsq.clear();
+            dbBAS_qdb.close();
+            dbEtone_qdb.close();
             sleep(86400);
         }
 
@@ -73,11 +122,11 @@ void Caviar::iniDB()
 
     if(!dbBAS_qdb.open())
     {
-        qDebug() << dbBAS_qdb.lastError();
+        qDebug() << "BAS Error" << dbBAS_qdb.lastError();
     }
     if(!dbEtone_qdb.open())
     {
-        qDebug() << dbEtone_qdb.lastError();
+        qDebug() << "ET Error" << dbEtone_qdb.lastError();
     }
 }
 

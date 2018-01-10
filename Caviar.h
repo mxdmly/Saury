@@ -23,6 +23,6 @@ public:
     QSqlDatabase dbEtone_qdb;
 
     QSqlQuery cxBAS_qsq;
-    QSqlQuery xrBAS_qsq;
+    QSqlQuery crEtone_qsq;
 };
 

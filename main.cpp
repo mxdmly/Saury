@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     Salt *sa = new Salt();
 
     ca->start();
-    sa->start();
+    //sa->start();
 
     int i;
     cin >> i;
