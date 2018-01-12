@@ -60,9 +60,9 @@ void Caviar::run()
             crEtone_str.append(",\'").append(cxBAS_qsq.value(5).toString()).append("\'");
             crEtone_str.append(",REPLACE(\'").append(cxBAS_qsq.value(6).toString()).append("\', \'Y\', \'\')");
             for (int i = 7; i < 146; ++i) {
-                crEtone_str.append(",").append("\'").append(cxBAS_qsq.value(i).toString()).append("\'");
+                crEtone_str.append(",\'").append(cxBAS_qsq.value(i).toString()).append("\'");
             }
-            crEtone_str.append(")");
+            crEtone_str.append(",@cbd,@cbx,@cby)");
             crEtone_qsq.exec(crEtone_str);
             qDebug() << ii;ii++;
         }
@@ -119,12 +119,11 @@ void Caviar::run()
             qDebug() << ii;ii++;
         }
 
-/*
 
         QFile f("C:\\Saury\\out.log");
         f.open(QIODevice::WriteOnly | QIODevice::Append);
         QTextStream textStream(&f);
-        textStream << crBAS_str << endl << endl;*/
+        textStream << crEtonetheS_str << endl << endl;
 
 
         thisTime = QDateTime::currentDateTime();//get this time
