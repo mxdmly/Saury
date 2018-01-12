@@ -45,9 +45,9 @@ void Caviar::run()
         int ii = 1;
         qDebug() << cxBAS_qsq.numRowsAffected();
         while (cxBAS_qsq.next()) {
-            crEtone_str = "DECLARE @bah VARCHAR(20) DECLARE @cyt VARCHAR(20) SET @bah = ";
+            crEtone_str = "DECLARE @name VARCHAR(20) DECLARE @cyt VARCHAR(20) SET @name = ";
             crEtone_str.append("\'");
-            crEtone_str.append(cxBAS_qsq.value(2).toString()).append("\'");
+            crEtone_str.append(cxBAS_qsq.value(7).toString()).append("\'");
             crEtone_str.append(" SET @cyt = ").append("\'");
             crEtone_str.append(cxBAS_qsq.value(33).toString()).append("\'").append(" ");
             crEtone_str.append(crEtonetheS_str);
@@ -84,7 +84,7 @@ void Caviar::run()
             crEtone_str.append(",\'").append(cxBAS_qsq.value(1).toString()).append("\'");
             crEtone_str.append(",\'").append(cxBAS_qsq.value(2).toString()).append("\'");
             crEtone_str.append(",@zy,@qh,@tp,@sfz");
-            for (int i = 3; i < 10; ++i) {
+            for (int i = 3; i < 9; ++i) {
                 crEtone_str.append(",\'").append(cxBAS_qsq.value(i).toString()).append("\'");
             }
             crEtone_str.append(")");

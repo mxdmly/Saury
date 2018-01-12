@@ -4,7 +4,7 @@ DECLARE @qh VARCHAR(20)
 
 SELECT @id = nhis.dbo.InVisit.InVisitId 
 FROM nhis.dbo.InVisit 
-WHERE nhis.dbo.InVisit.CaseNo = @bah AND nhis.dbo.InVisit.DischargeDT = @cyt 
+WHERE nhis.dbo.InVisit.Name = @name AND nhis.dbo.InVisit.DischargeDT = @cyt 
 
 SELECT @zy = nhis.dbo.ZhaoQingInVisitSiReg.InSurVisitId, @qh = nhis.dbo.ZhaoQingInVisitSiReg.JBJGCode 
 FROM nhis.dbo.ZhaoQingInVisitSiReg 
