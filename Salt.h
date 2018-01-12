@@ -15,9 +15,13 @@ public:
     ~Salt();
     void run();
     void iniDB();
+    QString getDateTime();
+    QString getTime();
+    void sendDataTABLEUPLOAD();//发送首页数据
 
     bool ifRun_b;
 
-    QSqlDatabase dbBAS_qdb;
     QSqlDatabase dbEtone_qdb;
+    QSqlQuery qEtone_sqs;
+    QSqlQuery qIntoEtone_sqs;
 };

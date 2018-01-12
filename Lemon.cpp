@@ -1,4 +1,7 @@
 #include "Lemon.h"
+#include <iostream>
+
+using namespace std;
 
 Lemon::Lemon()
 {
@@ -23,7 +26,7 @@ Lemon::~Lemon()
 
 void Lemon::ini()
 {
-    myNOBER_str = "4096";
+    myNum_str = "2333";
     BUSINESS_HANDLE = NULL;
     hDLL = LoadLibrary(L"C:\\MyDLL\\SiInterface.dll");
     //初始化社保动态库
@@ -60,7 +63,7 @@ int Lemon::Sign()
     try
     {
         QString topInData_str = "9100^100007^";
-        topInData_str.append(myNOBER_str);//4096
+        topInData_str.append(myNum_str);//4096
         topInData_str.append("^^");
         topInData_str.append(getTime());
         topInData_str.append("-100007-1111^441200^^1^");
@@ -71,10 +74,10 @@ int Lemon::Sign()
         ifSign_i = BUSINESS_HANDLE(ch_InData, ch_OutData);//使用函数
         if (ifSign_i == 0)//返回 0 代表成功
         {
-            ywNOBER_str = ch_OutData;
+            bcNum_str = ch_OutData;
             QString send_str = ch_InData;
             send_str.append("\nout\n");
-            send_str.append(ywNOBER_str);
+            send_str.append(bcNum_str);
             qDebug() << send_str;
         }
         else
@@ -88,6 +91,45 @@ int Lemon::Sign()
         qDebug() << "Sign is Error";
     }
     return ifSign_i;
+}
+
+int Lemon::sendData(QString in_str)
+{
+    int ifSendDate_i;
+    char * inData_ch = new char;
+    qDebug () << "myGod" << inData_ch << endl;
+    memset(outData_ch, 0, sizeof(1024));
+    if (hDLL != NULL && BUSINESS_HANDLE != NULL)
+    {
+        try
+        {
+            string uploadTemp_str = string((const char *)in_str.toLocal8Bit());//Chinese
+            inData_ch = const_cast<char*>(uploadTemp_str.c_str());
+            ifSendDate_i = BUSINESS_HANDLE(inData_ch, outData_ch);//使用函数
+            if (ifSendDate_i == 0)
+            {
+                QString send_str = inData_ch;
+                send_str.append("\nout\n");
+                QString hhh = QString::fromLocal8Bit(outData_ch);
+                send_str.append(hhh);
+                qDebug() << send_str;
+            }
+            else
+            {
+                QString strError = QString::fromLocal8Bit(outData_ch, 1024);//转为QString输出
+                qDebug() << QString("\n" + strError + " error\n");
+            }
+        }
+        catch (const std::exception&)
+        {
+            qDebug() << "sendData";
+        }
+    }
+    else
+    {
+        qDebug() << "No............";
+    }
+    return ifSendDate_i;
 }
 
 QString Lemon::getTime()

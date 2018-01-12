@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     Caviar *caviar = new Caviar();
     Salt *salt = new Salt();
 
-    caviar->start();
-    //salt->start();
+    //caviar->start();
+    salt->start();
 
     int i;
     cin >> i;
