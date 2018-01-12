@@ -34,7 +34,9 @@ void Salt::run()
     while (ifRun_b) {
         qDebug() << "salt";
 
-        sendDataTABLEUPLOAD();
+        //sendDataTABLEUPLOAD();
+        //sendDataTABLEZ();
+        sendDataTABLES();
 
         //写入log文件
         QFile f("C:\\Saury\\out.log");
@@ -122,7 +124,7 @@ void Salt::sendDataTABLEUPLOAD()//首页上传
         sendDate_str.append(match.captured(0));
         sendDate_str.append("^");
         sendDate_str.append(getTime());
-        sendDate_str.append("-100007-1111^441200^|");
+        sendDate_str.append("-100007-1111^441200^");
         for (int i = 4; i < 178; ++i) {
             sendDate_str.append(qEtone_sqs.value(i).toString()).append("|");
         }
@@ -133,6 +135,88 @@ void Salt::sendDataTABLEUPLOAD()//首页上传
 
         //写入结果
         sendDate_str = "UPDATE db_upload.dbo.TT SET ISUPLOAD = \'";
+        sendDate_str.append(QString::number(isUpdate, 10)).append("\'");
+        sendDate_str.append(",RESULT = \'").append(QString::fromLocal8Bit(lemon.outData_ch)).append("\'");
+        sendDate_str.append(",UPTIME = \'").append(getDateTime()).append("\'");
+        sendDate_str.append(" WHERE ID = \'").append(qEtone_sqs.value(0).toString()).append("\'");
+        qIntoEtone_sqs.exec(sendDate_str);
+
+        qDebug() << ii;
+        ii++;
+
+        msleep(100);
+    }
+}
+
+void Salt::sendDataTABLEZ()//诊断上传
+{
+    //查询亿通数据
+    sendDate_str = "SELECT * FROM dbo.ZZ WHERE dbo.ZZ.ISUPLOAD <> 0 AND dbo.ZZ.InSurVisitId <> \'";
+    sendDate_str.append("\'");
+    qEtone_sqs.exec(sendDate_str);
+    qDebug() << qEtone_sqs.numRowsAffected();
+
+    //上传到社保局
+    while (qEtone_sqs.next()) {
+        ii = 1;
+        sendDate_str = "3720^100007^2333";
+        QRegularExpression re("\\^[0-9]+-[0-9]+-[0-9]+");
+        QRegularExpressionMatch match = re.match(lemon.bcNum_str);
+        sendDate_str.append(match.captured(0));
+        sendDate_str.append("^");
+        sendDate_str.append(getTime());
+        sendDate_str.append("-100007-1111^441200^");
+        for (int i = 5; i < 17; ++i) {
+            sendDate_str.append(qEtone_sqs.value(i).toString()).append("|");
+        }
+        sendDate_str.append("^1^");
+        isUpdate = lemon.sendData(sendDate_str);
+
+        qDebug() << sendDate_str << endl;
+
+        //写入结果
+        sendDate_str = "UPDATE db_upload.dbo.ZZ SET ISUPLOAD = \'";
+        sendDate_str.append(QString::number(isUpdate, 10)).append("\'");
+        sendDate_str.append(",RESULT = \'").append(QString::fromLocal8Bit(lemon.outData_ch)).append("\'");
+        sendDate_str.append(",UPTIME = \'").append(getDateTime()).append("\'");
+        sendDate_str.append(" WHERE ID = \'").append(qEtone_sqs.value(0).toString()).append("\'");
+        qIntoEtone_sqs.exec(sendDate_str);
+
+        qDebug() << ii;
+        ii++;
+
+        msleep(100);
+    }
+}
+
+void Salt::sendDataTABLES()//手术上传
+{
+    //查询亿通数据
+    sendDate_str = "SELECT * FROM dbo.SS WHERE dbo.SS.ISUPLOAD <> 0 AND dbo.SS.InSurVisitId <> \'";
+    sendDate_str.append("\'");
+    qEtone_sqs.exec(sendDate_str);
+    qDebug() << qEtone_sqs.numRowsAffected();
+
+    //上传到社保局
+    while (qEtone_sqs.next()) {
+        ii = 1;
+        sendDate_str = "3730^100007^2333";
+        QRegularExpression re("\\^[0-9]+-[0-9]+-[0-9]+");
+        QRegularExpressionMatch match = re.match(lemon.bcNum_str);
+        sendDate_str.append(match.captured(0));
+        sendDate_str.append("^");
+        sendDate_str.append(getTime());
+        sendDate_str.append("-100007-1111^441200^");
+        for (int i = 5; i < 33; ++i) {
+            sendDate_str.append(qEtone_sqs.value(i).toString()).append("|");
+        }
+        sendDate_str.append("^1^");
+        isUpdate = lemon.sendData(sendDate_str);
+
+        qDebug() << sendDate_str << endl;
+
+        //写入结果
+        sendDate_str = "UPDATE db_upload.dbo.SS SET ISUPLOAD = \'";
         sendDate_str.append(QString::number(isUpdate, 10)).append("\'");
         sendDate_str.append(",RESULT = \'").append(QString::fromLocal8Bit(lemon.outData_ch)).append("\'");
         sendDate_str.append(",UPTIME = \'").append(getDateTime()).append("\'");
