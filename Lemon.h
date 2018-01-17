@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <iostream>
 #include <windows.h>
 #include <QSqlDatabase>
@@ -16,6 +15,7 @@ public:
     void ini();
     int Sign();
     int sendData(QString in_str);
+    int SignOut();
 
     QString getTime();
 

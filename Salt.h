@@ -20,10 +20,12 @@ public:
     void sendDataTABLEUPLOAD();//发送首页数据
     void sendDataTABLEZ();//发送诊断信息
     void sendDataTABLES();//发送手术
+    void sendDataTABLEB();//发送BB信息
+    void writeLog(QString str);
 
     bool ifRun_b;
 
-    QSqlDatabase dbEtone_qdb;
-    QSqlQuery qEtone_sqs;
-    QSqlQuery qIntoEtone_sqs;
+    QSqlDatabase dbEtoneS_qdb;
+    QSqlQuery *qEtone_sqs;
+    QSqlQuery *qIntoEtone_sqs;
 };

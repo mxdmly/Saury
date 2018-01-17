@@ -1,5 +1,7 @@
 #include "Lemon.h"
 #include <iostream>
+#include <QRegularExpression>
+#include <QDebug>
 
 using namespace std;
 
@@ -26,9 +28,9 @@ Lemon::~Lemon()
 
 void Lemon::ini()
 {
-    myNum_str = "2333";
+    myNum_str = "4096";
     BUSINESS_HANDLE = NULL;
-    hDLL = LoadLibrary(L"C:\\MyDLL\\SiInterface.dll");
+    hDLL = LoadLibrary(L"C:\\Saury\\SiInterface.dll");
     //初始化社保动态库
     if (hDLL != NULL)
     {
@@ -70,19 +72,21 @@ int Lemon::Sign()
         //char ch_InData[] = "9100^100007^8888^^20171213005255-100007-8645^441200^^1^";//保留旧数据
         QByteArray b = topInData_str.toLatin1();
         char * ch_InData = b.data();
-        char ch_OutData[512] = "";
-        ifSign_i = BUSINESS_HANDLE(ch_InData, ch_OutData);//使用函数
+        ifSign_i = BUSINESS_HANDLE(ch_InData, outData_ch);//使用函数
         if (ifSign_i == 0)//返回 0 代表成功
         {
-            bcNum_str = ch_OutData;
+            QRegularExpression re("\\^[0-9]+-[0-9]+-[0-9]+");
+            QRegularExpressionMatch match = re.match(QString(outData_ch));
+            bcNum_str = match.captured(0);//业务周期号赋值
+
             QString send_str = ch_InData;
             send_str.append("\nout\n");
             send_str.append(bcNum_str);
-            qDebug() << send_str;
+            //qDebug() << send_str;
         }
         else
         {
-            QString strError = QString::fromLocal8Bit(ch_OutData, 512);//转为QString输出
+            QString strError = QString::fromLocal8Bit(outData_ch, 1024);//转为QString输出
             qDebug() << QString("\n" + strError + "           error");
         }
     }
@@ -109,20 +113,18 @@ int Lemon::sendData(QString in_str)
             if (ifSendDate_i == 0)
             {
                 QString send_str = inData_ch;
-                send_str.append("\nout\n");
+                send_str.append("\n out \n");
                 QString hhh = QString::fromLocal8Bit(outData_ch);
                 send_str.append(hhh);
-                qDebug() << send_str;
             }
             else
             {
                 QString strError = QString::fromLocal8Bit(outData_ch, 1024);//转为QString输出
-                qDebug() << QString("\n" + strError + " error\n");
             }
         }
         catch (const std::exception&)
         {
-            qDebug() << "sendData";
+            qDebug() << "sendData Error";
         }
     }
     else
@@ -130,6 +132,38 @@ int Lemon::sendData(QString in_str)
         qDebug() << "No............";
     }
     return ifSendDate_i;
+}
+
+int Lemon::SignOut()//签退
+{
+    int ifSignOut_i = -1;
+    try
+    {
+        QString topInData_str = "9110^100007^";
+        topInData_str.append(myNum_str);//4096
+        topInData_str.append(bcNum_str).append("^");
+        topInData_str.append(getTime()).append("-100007-1111^441200^^1^");
+        QByteArray b = topInData_str.toLatin1();
+        char * ch_InData = b.data();
+        ifSignOut_i = BUSINESS_HANDLE(ch_InData, outData_ch);//使用函数
+        if (ifSignOut_i == 0)//返回 0 代表成功
+        {
+            QString send_str = ch_InData;
+            send_str.append("\nout\n");
+            send_str.append(QString::fromLocal8Bit(outData_ch));
+            //qDebug() << send_str;
+        }
+        else
+        {
+            QString strError = QString::fromLocal8Bit(outData_ch, 1024);//转为QString输出
+            qDebug() << QString("\n" + strError + "           error");
+        }
+    }
+    catch (const std::exception&)
+    {
+        qDebug() << "Sign is Error";
+    }
+    return ifSignOut_i;
 }
 
 QString Lemon::getTime()
