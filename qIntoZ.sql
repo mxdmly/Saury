@@ -4,26 +4,26 @@ DECLARE @tp VARCHAR(20)
 DECLARE @sfz VARCHAR(30) 
 
 SELECT 
-@zy = db_upload.dbo.TT.InSurVisitId, 
-@qh = db_upload.dbo.TT.CBDTCQH, 
-@tp = db_upload.dbo.TT.FIDCARD_TYPE, 
-@sfz = db_upload.dbo.TT.FIDCARD 
-FROM dbo.TT 
-WHERE dbo.TT.FPRN = @bah AND dbo.TT.FTIMES = @cs 
+@zy = db_upload.dbo.TABLEUPLOAD.InSurVisitId, 
+@qh = db_upload.dbo.TABLEUPLOAD.CBDTCQH, 
+@tp = db_upload.dbo.TABLEUPLOAD.FIDCARD_TYPE, 
+@sfz = db_upload.dbo.TABLEUPLOAD.FIDCARD 
+FROM dbo.TABLEUPLOAD 
+WHERE dbo.TABLEUPLOAD.FPRN = @bah AND dbo.TABLEUPLOAD.FTIMES = @cs 
 
-INSERT INTO db_upload.dbo.ZZ(
-dbo.ZZ.ZID,
-dbo.ZZ.FPRN,
-dbo.ZZ.FTIMES,
-dbo.ZZ.InSurVisitId,
-dbo.ZZ.CBDTCQH,
-dbo.ZZ.FIDCARD_TYPE,
-dbo.ZZ.FIDCARD,
-dbo.ZZ.ZPX,
-dbo.ZZ.ZZDLX,
-dbo.ZZ.ZJBMC,
-dbo.ZZ.ZICDM,
-dbo.ZZ.ZRYBQBH,
-dbo.ZZ.ZRYBQ)
+INSERT INTO db_upload.dbo.TABLEZ(
+dbo.TABLEZ.ZID,
+dbo.TABLEZ.FPRN,
+dbo.TABLEZ.FTIMES,
+dbo.TABLEZ.InSurVisitId,
+dbo.TABLEZ.CBDTCQH,
+dbo.TABLEZ.FIDCARD_TYPE,
+dbo.TABLEZ.FIDCARD,
+dbo.TABLEZ.ZPX,
+dbo.TABLEZ.ZZDLX,
+dbo.TABLEZ.ZJBMC,
+dbo.TABLEZ.ZICDM,
+dbo.TABLEZ.ZRYBQBH,
+dbo.TABLEZ.ZRYBQ)
 
 VALUES (
