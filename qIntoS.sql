@@ -4,43 +4,43 @@ DECLARE @tp VARCHAR(20)
 DECLARE @sfz VARCHAR(30) 
 
 SELECT 
-@zy = db_upload.dbo.TT.InSurVisitId, 
-@qh = db_upload.dbo.TT.CBDTCQH, 
-@tp = db_upload.dbo.TT.FIDCARD_TYPE, 
-@sfz = db_upload.dbo.TT.FIDCARD 
-FROM dbo.TT 
-WHERE dbo.TT.FPRN = @bah AND dbo.TT.FTIMES = @cs 
+@zy = db_upload.dbo.TABLEUPLOAD.InSurVisitId, 
+@qh = db_upload.dbo.TABLEUPLOAD.CBDTCQH, 
+@tp = db_upload.dbo.TABLEUPLOAD.FIDCARD_TYPE, 
+@sfz = db_upload.dbo.TABLEUPLOAD.FIDCARD 
+FROM dbo.TABLEUPLOAD 
+WHERE dbo.TABLEUPLOAD.FPRN = @bah AND dbo.TABLEUPLOAD.FTIMES = @cs 
 
-INSERT INTO db_upload.dbo.SS(
-dbo.SS.SID,
-dbo.SS.FPRN,
-dbo.SS.FTIMES,
-dbo.SS.InSurVisitId,
-dbo.SS.CBDTCQH,
-dbo.SS.FIDCARD_TYPE,
-dbo.SS.FIDCARD,
-dbo.SS.SPX,
-dbo.SS.SSSM,
-dbo.SS.SSSNAME,
-dbo.SS.SSDATE,
-dbo.SS.SQKBH,
-dbo.SS.SQK,
-dbo.SS.SYHBH,
-dbo.SS.SYH,
-dbo.SS.SSSYSBH,
-dbo.SS.SSSYS,
-dbo.SS.SMZFSBH,
-dbo.SS.SMZFS,
-dbo.SS.SSFFJSS,
-dbo.SS.SIZBH,
-dbo.SS.SIZNAME,
-dbo.SS.SIIZBH,
-dbo.SS.SIIZNAME,
-dbo.SS.SMZYSBH,
-dbo.SS.SMZYS,
-dbo.SS.SZQSSBH,
-dbo.SS.SZQSS,
-dbo.SS.SSSJBBH,
-dbo.SS.SSSJB)
+INSERT INTO db_upload.dbo.TABLES(
+dbo.TABLES.SID,
+dbo.TABLES.FPRN,
+dbo.TABLES.FTIMES,
+dbo.TABLES.InSurVisitId,
+dbo.TABLES.CBDTCQH,
+dbo.TABLES.FIDCARD_TYPE,
+dbo.TABLES.FIDCARD,
+dbo.TABLES.SPX,
+dbo.TABLES.SSSM,
+dbo.TABLES.SSSNAME,
+dbo.TABLES.SSDATE,
+dbo.TABLES.SQKBH,
+dbo.TABLES.SQK,
+dbo.TABLES.SYHBH,
+dbo.TABLES.SYH,
+dbo.TABLES.SSSYSBH,
+dbo.TABLES.SSSYS,
+dbo.TABLES.SMZFSBH,
+dbo.TABLES.SMZFS,
+dbo.TABLES.SSFFJSS,
+dbo.TABLES.SIZBH,
+dbo.TABLES.SIZNAME,
+dbo.TABLES.SIIZBH,
+dbo.TABLES.SIIZNAME,
+dbo.TABLES.SMZYSBH,
+dbo.TABLES.SMZYS,
+dbo.TABLES.SZQSSBH,
+dbo.TABLES.SZQSS,
+dbo.TABLES.SSSJBBH,
+dbo.TABLES.SSSJB)
 
 VALUES (
